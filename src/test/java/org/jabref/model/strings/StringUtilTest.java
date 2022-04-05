@@ -189,7 +189,7 @@ class StringUtilTest {
         /*
          * Caso de Teste 6: Aborda a segunda decisão da linha 92 na situação de
          * TRUE
-         * */
+         * */C
         assertEquals("Ola", StringUtil.getPart(" Ola}", 0, false));
 
         /*
