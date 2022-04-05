@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 @FetcherTest
 class BiodiversityLibraryTest {
@@ -27,51 +26,89 @@ class BiodiversityLibraryTest {
 
     @Test
     void getFetchDataShouldReturnJsonWithDataTest() throws Exception {
-        fail();
+        var data = finder.fetchData(url);
+
+        assertTrue(data.length() > 0);
+        assertTrue(data.contains("\"Status\":\"ok\""));
     }
 
     @Test
     void getFetchDataShouldThrowExceptionTest() throws Exception {
-        fail();
+        assertThrows(Exception.class, () -> {
+            finder.fetchData(fakeUrl);
+        });
     }
 
     @Test
     void getCollectionsShouldReturnObjWithDataTest() throws Exception {
-        fail();
+        var collections = finder.getCollections();
+
+        assertEquals("ok", collections.getStatus());
+        assertEquals("", collections.getErrorMessage());
+        assertFalse(collections.getResult().isEmpty());
     }
 
     @Test
     void getAuthorsShouldReturnObjWithMetadataTest() throws Exception {
-        fail();
+        var authors = finder.getAuthorMetadata(87509, 't');
+
+        assertEquals("ok", authors.getStatus());
+        assertEquals("", authors.getErrorMessage());
+        assertFalse(authors.getResult().isEmpty());
     }
 
     @Test
     void getAuthorsShouldThrowExceptionTest() throws Exception {
-       fail();
+        assertThrows(Exception.class, () -> {
+            finder.getAuthorMetadata(0, ' ');
+        });
     }
 
     @Test
     void getSubjectMetadataShouldReturnObjWithMetadataTest() throws Exception {
-       fail();
+        var subjects = finder.getSubjectMetadata("water", 't');
+
+        assertEquals("ok", subjects.getStatus());
+        assertEquals("", subjects.getErrorMessage());
+        assertFalse(subjects.getResult().isEmpty());
+    }
 
     @Test
     void getSubjectMetadataShouldThrowExceptionTest() throws Exception {
-        fail();
+        assertThrows(Exception.class, () -> {
+            finder.getSubjectMetadata("", ' ');
+        });
     }
 
     @Test
     void publicationSearchShouldReturnObjWithMetadataTest() throws Exception {
-        fail();
+        String searchTerm = "cocos+island+costa+rica+birds";
+        char searchType = 'C';
+        int page = 1, pageSize = 10;
+
+        var publications = finder.publicationSearch(searchTerm, searchType, page, pageSize);
+
+        assertEquals("ok", publications.getStatus());
+        assertEquals("", publications.getErrorMessage());
+        assertFalse(publications.getResult().isEmpty());
     }
 
     @Test
     void publicationSearchShouldThrowExceptionTest() throws Exception {
-        fail();
+        assertThrows(Exception.class, () -> {
+            finder.publicationSearch("", ' ', -1, -1);
+        });
     }
 
     @Test
     void authorSearchShouldReturnObjWithMetadataTest() throws Exception {
-        fail();
+        String authorName = "dimmock";
+
+        var authors = finder.authorSearch(authorName);
+
+        assertEquals("ok", authors.getStatus());
+        assertEquals("", authors.getErrorMessage());
+        assertFalse(authors.getResult().isEmpty());
     }
 
 }
